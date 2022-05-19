@@ -1,0 +1,171 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/preprocess_kaggle_survey.py\
+      \ -i \"data/raw/IT Salary Survey EU 2018.csv\" \"data/raw/T Salary Survey EU\
+      \ 2019.csv\" \"data/raw/IT Salary Survey EU  2020.csv\" -s -l data/interim/labels.json\
+      \ -o data/interim/cleaned_data.parquet\n"
+    deps:
+    - path: data/raw/IT Salary Survey EU  2020.csv
+      md5: e00c49d579e5109542b21802c86078f9
+      size: 238182
+    - path: data/raw/IT Salary Survey EU 2018.csv
+      md5: 76f8eb45fcf224799c84b77995da482d
+      size: 77161
+    - path: data/raw/T Salary Survey EU 2019.csv
+      md5: 3973056878ed7795424b918963e14c47
+      size: 141780
+    - path: src/preprocessing/kaggle_survey_mappings.py
+      md5: 5e406216b037bb17d94cb9503998663d
+      size: 4264
+    - path: src/preprocessing/kaggle_survey_utils.py
+      md5: f0d8aca058f48fb3e7aa5a90e4eb5d58
+      size: 11765
+    - path: src/preprocessing/preprocess_kaggle_survey.py
+      md5: 7bf9c5a82521588597a16be260d8ca2f
+      size: 6513
+    outs:
+    - path: data/interim/cleaned_data.parquet
+      md5: f30cff94c4cbd23d645b3a08370b2458
+      size: 21295
+    - path: data/interim/labels.json
+      md5: 94de0839e6ab5978801d20f9728e4484
+      size: 767
+  train:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/modeling/train_kaggle.py -f\
+      \ data/interim/transformed_features.parquet -t data/interim/transformed_targets.parquet\
+      \ -m artefacts/model.joblib -p artefacts/hyperparameters.json -e artefacts/metrics.json\n"
+    deps:
+    - path: artefacts/hyperparameters.json
+      md5: 36f4070c5aae8593530216ba1432b9cb
+      size: 157
+    - path: data/interim/transformed_features.parquet
+      md5: d4d8611b479904e1e294ba6210cfedba
+      size: 32992
+    - path: data/interim/transformed_targets.parquet
+      md5: 34204b64023a150b7a5586963c803b4b
+      size: 21512
+    - path: src/modeling/train_kaggle.py
+      md5: 26f5f455d858435e040c2c0ee6e5aa46
+      size: 5707
+    outs:
+    - path: artefacts/metrics.json
+      md5: f3efe8e3881968c244f4fb7abd1e1ed4
+      size: 154
+    - path: artefacts/model.joblib
+      md5: 1476ba6850c73a71fc9195ef66e1e204
+      size: 112579730
+  load:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/data_loading/load_raw_data.py\
+      \ -i \"data/raw/IT Salary Survey EU 2018.csv\" \"data/raw/T Salary Survey EU\
+      \ 2019.csv\" \"data/raw/IT Salary Survey EU  2020.csv\" -o data/interim/raw_data.parquet\n"
+    deps:
+    - path: data/raw/IT Salary Survey EU  2020.csv
+      md5: e00c49d579e5109542b21802c86078f9
+      size: 238182
+    - path: data/raw/IT Salary Survey EU 2018.csv
+      md5: 76f8eb45fcf224799c84b77995da482d
+      size: 77161
+    - path: data/raw/T Salary Survey EU 2019.csv
+      md5: 3973056878ed7795424b918963e14c47
+      size: 141780
+    - path: src/data_loading/load_raw_data.py
+      md5: c29fae1296dfe94958267861b371d339
+      size: 3075
+    outs:
+    - path: data/interim/raw_data.parquet
+      md5: 3bbd151050a9975de4638fd56ac136ff
+      size: 80962
+  clean:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/clean_features.py\
+      \ -i data/interim/raw_data.parquet -o data/interim/cleaned_data.parquet -m train\n"
+    deps:
+    - path: data/interim/raw_data.parquet
+      md5: 5f554226e324265c54442bfe96ff39db
+      size: 63334
+    - path: src/preprocessing/clean_features.py
+      md5: 5032b7fcf4799e98048e07e4ad231f1f
+      size: 9190
+    outs:
+    - path: data/interim/cleaned_data.parquet
+      md5: a345f3272e833555aec0cdd247db47e8
+      size: 17749
+  transform:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/transform_features.py\
+      \ -i data/interim/cleaned_data.parquet -o data/interim/transformed_data.parquet\
+      \ -m train -l data/interim/labels.json\n"
+    deps:
+    - path: data/interim/cleaned_data.parquet
+      md5: a345f3272e833555aec0cdd247db47e8
+      size: 17749
+    - path: src/preprocessing/transform_features.py
+      md5: 0c1a2d0428d2267923837ea72f9b06cc
+      size: 6320
+    outs:
+    - path: data/interim/labels.json
+      md5: 94de0839e6ab5978801d20f9728e4484
+      size: 767
+    - path: data/interim/transformed_data.parquet
+      md5: 2bad349f5f22e79894bd0f967ad938c8
+      size: 17152
+  clean-features:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/clean_features.py\
+      \ -i data/interim/raw_data.parquet -o data/interim/cleaned_features.parquet\
+      \ -m train\n"
+    deps:
+    - path: data/interim/raw_data.parquet
+      md5: 3bbd151050a9975de4638fd56ac136ff
+      size: 80962
+    - path: src/preprocessing/clean_features.py
+      md5: e1881cc31a6f0970b835728255291f67
+      size: 9293
+    outs:
+    - path: data/interim/cleaned_features.parquet
+      md5: 00975a9f82093529e1eae466ee8eca86
+      size: 33603
+  transform-features:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/transform_features.py\
+      \ -i data/interim/cleaned_features.parquet -o data/interim/transformed_features.parquet\
+      \ -m train -l artefacts/labels.json\n"
+    deps:
+    - path: data/interim/cleaned_features.parquet
+      md5: 00975a9f82093529e1eae466ee8eca86
+      size: 33603
+    - path: src/preprocessing/transform_features.py
+      md5: 2f27221b97e13e948be94e0b1bdb4f4a
+      size: 6685
+    outs:
+    - path: artefacts/labels.json
+      md5: 94de0839e6ab5978801d20f9728e4484
+      size: 767
+    - path: data/interim/transformed_features.parquet
+      md5: d4d8611b479904e1e294ba6210cfedba
+      size: 32992
+  clean-targets:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/clean_targets.py\
+      \ -i data/interim/raw_data.parquet -o data/interim/cleaned_targets.parquet\n"
+    deps:
+    - path: data/interim/raw_data.parquet
+      md5: 3bbd151050a9975de4638fd56ac136ff
+      size: 80962
+    - path: src/preprocessing/clean_targets.py
+      md5: 8630c49e77106874b78ea12de695cfc9
+      size: 3292
+    outs:
+    - path: data/interim/cleaned_targets.parquet
+      md5: 34204b64023a150b7a5586963c803b4b
+      size: 21512
+  transform-targets:
+    cmd: "export PYTHONPATH=$PWD:$PWD/src && python src/preprocessing/transform_targets.py\
+      \ -i data/interim/cleaned_targets.parquet -o data/interim/transformed_targets.parquet\n"
+    deps:
+    - path: data/interim/cleaned_targets.parquet
+      md5: 34204b64023a150b7a5586963c803b4b
+      size: 21512
+    - path: src/preprocessing/transform_targets.py
+      md5: 5189eab6aefd66f9748ed838d44e4b2c
+      size: 2546
+    outs:
+    - path: data/interim/transformed_targets.parquet
+      md5: 34204b64023a150b7a5586963c803b4b
+      size: 21512
