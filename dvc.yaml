@@ -1,0 +1,81 @@
+stages:
+  load:
+    cmd: >
+      export PYTHONPATH=$PWD:$PWD/src &&
+      python src/data_loading/load_raw_data.py
+      -i "data/raw/IT Salary Survey EU 2018.csv" "data/raw/T Salary Survey EU 2019.csv" "data/raw/IT Salary Survey EU  2020.csv"
+      -o data/interim/raw_data.parquet
+    deps:
+      - src/data_loading/load_raw_data.py
+      - "data/raw/IT Salary Survey EU 2018.csv"
+      - "data/raw/T Salary Survey EU 2019.csv"
+      - "data/raw/IT Salary Survey EU  2020.csv"
+    outs:
+      - data/interim/raw_data.parquet
+  clean-features:
+    cmd: >
+      export PYTHONPATH=$PWD:$PWD/src &&
+      python src/preprocessing/clean_features.py
+      -i data/interim/raw_data.parquet
+      -o data/interim/cleaned_features.parquet
+      -m train
+    deps:
+      - src/preprocessing/clean_features.py
+      - data/interim/raw_data.parquet
+    outs:
+      - data/interim/cleaned_features.parquet
+  transform-features:
+    cmd: >
+      export PYTHONPATH=$PWD:$PWD/src &&
+      python src/preprocessing/transform_features.py
+      -i data/interim/cleaned_features.parquet
+      -o data/interim/transformed_features.parquet
+      -m train
+      -l artefacts/labels.json
+    deps:
+      - src/preprocessing/transform_features.py
+      - data/interim/cleaned_features.parquet
+    outs:
+      - data/interim/transformed_features.parquet
+      - artefacts/labels.json
+  clean-targets:
+    cmd: >
+      export PYTHONPATH=$PWD:$PWD/src &&
+      python src/preprocessing/clean_targets.py
+      -i data/interim/raw_data.parquet
+      -o data/interim/cleaned_targets.parquet
+    deps:
+      - src/preprocessing/clean_targets.py
+      - data/interim/raw_data.parquet
+    outs:
+      - data/interim/cleaned_targets.parquet
+  transform-targets:
+    cmd: >
+      export PYTHONPATH=$PWD:$PWD/src &&
+      python src/preprocessing/transform_targets.py
+      -i data/interim/cleaned_targets.parquet
+      -o data/interim/transformed_targets.parquet
+    deps:
+      - src/preprocessing/transform_targets.py
+      - data/interim/cleaned_targets.parquet
+    outs:
+      - data/interim/transformed_targets.parquet
+  train:
+      cmd: >
+        export PYTHONPATH=$PWD:$PWD/src &&
+        python src/modeling/train_kaggle.py
+        -f data/interim/transformed_features.parquet
+        -t data/interim/transformed_targets.parquet
+        -m artefacts/model.joblib
+        -p artefacts/hyperparameters.json
+        -e artefacts/metrics.json
+      deps:
+      - src/modeling/train_kaggle.py
+      - data/interim/transformed_features.parquet
+      - data/interim/transformed_targets.parquet
+      - artefacts/hyperparameters.json
+      outs:
+      - artefacts/model.joblib
+      metrics:
+        - artefacts/metrics.json:
+            cache: false

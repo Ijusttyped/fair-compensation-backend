@@ -1,0 +1,21 @@
+[BASIC]
+good-names=f,_,X,X_train,X_test,y,y_train,y_test,df,q1,q3
+
+[FORMAT]
+max-line-length=120
+max-statements=70
+
+[SIMILARITIES]
+ignore-imports=no
+
+[DESIGN]
+min-similarity-lines=8
+
+[MESSAGES CONTROL]
+disable=
+    fixme,
+    too-few-public-methods,
+    no-name-in-module
+
+[REPORTS]
+reports=yes
