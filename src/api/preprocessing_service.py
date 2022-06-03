@@ -1,6 +1,7 @@
 """ Service to make preprocessing accessible via http requests """
 import os
 from typing import List, Literal
+import logging
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -17,6 +18,7 @@ from utils.data_models import (
 
 
 app = FastAPI()
+logger = logging.getLogger(os.getenv("LOGGER", "default"))
 
 
 @app.post("/preprocess", response_model=List[PreprocessedRequestInference])
@@ -32,6 +34,7 @@ def preprocess_data(
     Returns:
         List of preprocessed inputs.
     """
+    logger.debug("Got request to preprocessing service: \n %s", user_request)
     execution_mode = ExecutionMode(mode)
     input_data = pd.DataFrame(jsonable_encoder(user_request))
     cleaner = KaggleFeatureCleaner(data=input_data, mode=execution_mode)

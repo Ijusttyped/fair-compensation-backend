@@ -1,6 +1,7 @@
 """ Service to make model predictions accessible via http requests """
 import os
 from typing import List
+import logging
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -12,6 +13,7 @@ from utils.data_models import PreprocessedRequestInference, RequestOutput
 
 
 app = FastAPI()
+logger = logging.getLogger(os.getenv("LOGGER", "default"))
 
 
 MODEL = SKLearnModel()
@@ -31,6 +33,7 @@ def predict(
     Returns:
         List of calculated predictions.
     """
+    logger.debug("Got request to prediction service: \n %s", user_request)
     input_data = pd.DataFrame(jsonable_encoder(user_request))
     predictions = MODEL.predict(input_data)
     request_output = [RequestOutput(Salary_Yearly=pred) for pred in predictions]
