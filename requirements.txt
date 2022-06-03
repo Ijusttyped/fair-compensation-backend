@@ -4,3 +4,6 @@ sklearn==0.0
 pandera==0.10.1
 uvicorn==0.17.6
 fastapi==0.76.0
+dvc==2.11.0
+s3fs==2022.5.0
+boto3==1.21.21

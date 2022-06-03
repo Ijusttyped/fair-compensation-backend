@@ -3,12 +3,12 @@ stages:
     cmd: >
       export PYTHONPATH=$PWD:$PWD/src &&
       python src/data_loading/load_raw_data.py
-      -i "data/raw/IT Salary Survey EU 2018.csv" "data/raw/T Salary Survey EU 2019.csv" "data/raw/IT Salary Survey EU  2020.csv"
+      -i "data/raw/IT Salary Survey EU 2018.csv" "data/raw/IT Salary Survey EU 2019.csv" "data/raw/IT Salary Survey EU  2020.csv"
       -o data/interim/raw_data.parquet
     deps:
       - src/data_loading/load_raw_data.py
       - "data/raw/IT Salary Survey EU 2018.csv"
-      - "data/raw/T Salary Survey EU 2019.csv"
+      - "data/raw/IT Salary Survey EU 2019.csv"
       - "data/raw/IT Salary Survey EU  2020.csv"
     outs:
       - data/interim/raw_data.parquet

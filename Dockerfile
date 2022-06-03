@@ -14,6 +14,8 @@ ENV LABELS_PATH "artefacts/labels.json"
 ENV MODEL_PATH "artefacts/model.joblib"
 ENV PORT ${PORT:-8000}
 
+RUN dvc pull transform-features train
+
 EXPOSE $PORT
 
 CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT} --log-level debug
