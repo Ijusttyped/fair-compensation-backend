@@ -1,0 +1,5 @@
+[core]
+    remote = filebase
+['remote "filebase"']
+    url = s3://fair-compensation-backend/dvc
+    endpointurl = https://s3.filebase.com
