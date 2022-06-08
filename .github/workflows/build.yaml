@@ -20,4 +20,4 @@ jobs:
           pip install -r requirements.txt
       - name: Docker build
         run: |
-          docker build . --build-arg aws_key=${{ secrets.AWS_ACCESS_KEY_ID }} --build-arg aws_secret=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          docker build . --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
