@@ -1,0 +1,2 @@
+[report]
+omit=src/data_loading/load.py
