@@ -1,2 +1,7 @@
 [report]
-omit=src/data_loading/load.py
+omit =
+    src/data_loading/load.py
+    src/modeling/models.py
+    src/modeling/train.py
+    src/preprocessing/data_processor.py
+    src/preprocessing/kaggle_survey_mappings.py
