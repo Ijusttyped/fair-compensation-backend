@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from datetime import datetime
+from test.data.sample_data import RAW_DATA_1, RAW_DATA_2, RAW_DATA_COMBINED
 
 from parameterized import parameterized
 import pandas as pd
@@ -12,62 +12,6 @@ from pandas.testing import assert_frame_equal
 from pandera.errors import SchemaError
 
 from data_loading.load_raw_data import KaggleRawDataLoader, main
-
-
-RAW_DATA_1 = pd.DataFrame(
-    {
-        "Company size": ["100+", "1-10"],
-        "Current Salary": [100000.0, 50000.0],
-        "Age": [24.0, 40.0],
-        "Gender": ["male", "female"],
-        "City": ["Berlin", "Cologne"],
-        "Seniority": ["Mid", "Junior"],
-        "Position": ["Developer", "Engineer"],
-        "Total years of experience": [4, 20],
-        "Company type": ["Product", "Startup"],
-        "Timestamp": ["2020/01/01", "2020/09/15"],
-    }
-)
-
-RAW_DATA_2 = pd.DataFrame(
-    {
-        "Zeitstempel": ["2022/01/22", "2021/08/29"],
-        "Company size": ["100", "50-100"],
-        "Current Salary": [55000.0, 65000.0],
-        "Age": [34.0, 33.0],
-        "Gender": ["diverse", "female"],
-        "City": ["Berlin", "Cologne"],
-        "Seniority": ["Senior", "Mid"],
-        "Position": ["Data Scientist", "Manager"],
-        "Total years of experience": [10, 9],
-        "Company type": ["Consulting", "Product"],
-    }
-)
-
-RAW_DATA_COMBINED = pd.DataFrame(
-    {
-        "Company_Size": ["100+", "1-10", "100", "50-100"],
-        "Salary_Yearly": [100000.0, 50000.0, 55000.0, 65000.0],
-        "Age": [24.0, 40.0, 34.0, 33.0],
-        "Gender": ["male", "female", "diverse", "female"],
-        "City": ["Berlin", "Cologne", "Berlin", "Cologne"],
-        "Seniority": ["Mid", "Junior", "Senior", "Mid"],
-        "Position": [
-            "Developer",
-            "Engineer",
-            "Data Scientist",
-            "Manager",
-        ],
-        "Years_of_Experience": ["4", "20", "10", "9"],
-        "Company_Type": ["Product", "Startup", "Consulting", "Product"],
-        "Timestamp": [
-            datetime(2020, 1, 1),
-            datetime(2020, 9, 15),
-            datetime(2022, 1, 22),
-            datetime(2021, 8, 29),
-        ],
-    }
-)
 
 
 class KaggleRawDataLoaderTest(unittest.TestCase):
