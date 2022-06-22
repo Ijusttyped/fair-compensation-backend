@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from test.data.sample_data import RAW_DATA_1, RAW_DATA_2, RAW_DATA_COMBINED
+from test.resources.sample_data import RAW_DATA_1, RAW_DATA_2, RAW_DATA_COMBINED
 
 from parameterized import parameterized
 import pandas as pd

@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from test.data.sample_data import FEATURES, TARGETS
+from test.resources.sample_data import FEATURES, TARGETS
 
 import numpy as np
 from numpy.testing import assert_array_equal

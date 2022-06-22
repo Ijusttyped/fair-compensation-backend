@@ -1,6 +1,6 @@
 """ Tests the data loading of the training data. """
 import unittest
-from test.data.sample_data import FEATURES, TARGETS
+from test.resources.sample_data import FEATURES, TARGETS
 
 import pandas as pd
 from pandas.testing import assert_frame_equal, assert_series_equal
