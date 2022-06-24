@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-from utils.data_models import CleanedFeaturesSchema
+from utils.data_models import CleanedFeaturesSchema, CleanedTargetsSchema
 
 
 RAW_DATA_1 = pd.DataFrame(
@@ -87,6 +87,15 @@ CLEANED_FEATURES = CleanedFeaturesSchema(
             "Year": [2020, 2020, 2022, 2021],
         },
         index=pd.Index([0, 1, 3, 4]),
+    )
+)
+
+CLEANED_TARGETS = CleanedTargetsSchema(
+    pd.DataFrame(
+        {
+            "Salary_Yearly": [50000.0, 55000.0, 65000.0, 65000.0],
+        },
+        index=pd.Index([1, 3, 4, 5]),
     )
 )
 
