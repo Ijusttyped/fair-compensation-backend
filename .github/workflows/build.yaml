@@ -1,4 +1,4 @@
-name: Build docker container
+name: Build
 
 on: [ pull_request ]
 
