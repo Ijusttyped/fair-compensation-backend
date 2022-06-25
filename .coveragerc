@@ -1,8 +1,10 @@
 [report]
 omit =
-    src/data_loading/load.py
-    src/modeling/models.py
-    src/modeling/train.py
-    src/preprocessing/data_processor.py
-    src/preprocessing/kaggle_survey_mappings.py
     src/api/*
+
+exclude_lines =
+    # Don't complain if non-runnable code isn't run:
+    if __name__ == .__main__.:
+
+    # Don't complain about abstract methods, they aren't run:
+    @(abc\.)?abstractmethod
