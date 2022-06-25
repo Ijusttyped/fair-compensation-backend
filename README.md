@@ -1,5 +1,14 @@
 # Fair Compensation
 
+A showcase for using machine learning in human resources.
+
+<br>
+
+![Code-Quality](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/code-quality.yaml/badge.svg)
+![Unit-Tests](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/tests.yaml/badge.svg)
+![Build](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/build.yaml/badge.svg)
+![Deployment](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/deployment.yaml/badge.svg)
+
 ## Project Goal
 
 The goal of the project is to showcase how machine learning can be used to make the salary structure fair.

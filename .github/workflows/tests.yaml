@@ -1,4 +1,4 @@
-name: Execute test suite
+name: Unit tests
 
 on: [ pull_request ]
 
