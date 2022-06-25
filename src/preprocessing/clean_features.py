@@ -60,9 +60,10 @@ class KaggleFeatureCleaner(DataProcessor):
     def reduce_cardinality(data: pd.DataFrame, percentage: float = 0.02):
         """
         Reduces the cardinality of categorical features by grouping low cardinality values in a new category 'other'.
+        If for the frequency of a value f is true: `2 <= f < `percentage * #records``, it gets replaced.
         Args:
             data (pd.DataFrame): Data with all categorical columns to group.
-            percentage (float, optional): percentage value under which the values are assigned to the new category.
+            percentage (float, optional): Percentage value under which the values are assigned to the new category.
                 Defaults to `0.02`.
 
         Returns:
@@ -143,6 +144,7 @@ class KaggleFeatureCleaner(DataProcessor):
             Series with the year of the timestamps.
         """
         year_timestamp = timestamp.dt.year
+        year_timestamp = year_timestamp.rename("Year")
         logger.info("Transformed column 'Timestamp' to years.")
         logger.debug("Got data from following years: %s", year_timestamp.unique())
         return year_timestamp
@@ -160,9 +162,10 @@ class KaggleFeatureCleaner(DataProcessor):
         """
 
         cleaned = pd.DataFrame(data=[position, seniority]).T.apply(
-            KaggleFeatureCleaner._replace_value, axis=1
+            KaggleFeatureCleaner._replace_seniority_in_position_name, axis=1
         )
-        logger.info("Cleaned column 'Position'")
+        cleaned = cleaned.astype("object").rename("Position")
+        logger.info("Cleaned column 'Position'.")
         return cleaned
 
     @staticmethod
@@ -187,9 +190,11 @@ class KaggleFeatureCleaner(DataProcessor):
         return cleaned
 
     @staticmethod
-    def _replace_value(row: pd.DataFrame):
+    def _replace_seniority_in_position_name(row: pd.DataFrame):
         """Removes the seniority of the position"""
-        if not pd.isna(row["Position"]) and not pd.isna(row["Seniority"]):
+        if pd.isna(row["Seniority"]):
+            return row["Position"]
+        if not pd.isna(row["Position"]):
             return row["Position"].replace(row["Seniority"], "").strip()
         return np.NAN
 

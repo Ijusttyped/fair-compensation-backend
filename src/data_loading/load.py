@@ -1,5 +1,5 @@
 """ Module containing base class to implement data loaders for training. """
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Tuple
 
 import pandas as pd
@@ -27,18 +27,22 @@ class DataLoader(ABC):
         self.test_size = test_size
         self.random_state = random_state
 
+    @abstractmethod
     def setup(self):
         """Sets up the datasets for modeling"""
         raise NotImplementedError
 
+    @abstractmethod
     def train_data(self) -> Tuple[pd.DataFrame, pd.Series]:
         """Returns the train features and targets"""
         raise NotImplementedError
 
+    @abstractmethod
     def test_data(self) -> Tuple[pd.DataFrame, pd.Series]:
         """Returns the test features and targets"""
         raise NotImplementedError
 
+    @abstractmethod
     def val_data(self) -> Tuple[pd.DataFrame, pd.Series]:
         """Returns the validation features and targets"""
         raise NotImplementedError

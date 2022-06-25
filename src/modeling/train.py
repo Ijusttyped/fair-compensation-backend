@@ -1,5 +1,5 @@
 """ Module containing the base class for implementing new trainers. """
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Dict, List
 
 from modeling.models import Model
@@ -19,10 +19,12 @@ class Trainer(ABC):
         self.data_loader = data_loader
         self.kwargs = kwargs
 
+    @abstractmethod
     def train(self) -> None:
         """Fits the model with the training data."""
         raise NotImplementedError
 
+    @abstractmethod
     def evaluate(self, metrics: List[str] = None) -> Dict[str, Dict[str, float]]:
         """Evaluates the model for the train and the test set."""
         raise NotImplementedError

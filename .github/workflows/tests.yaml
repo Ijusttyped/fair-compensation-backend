@@ -1,4 +1,4 @@
-name: Check code quality
+name: Execute test suite
 
 on: [ pull_request ]
 
@@ -19,17 +19,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-test.txt
-      - name: Analysing the source code with black
-        run: |
-          black src --check --verbose --diff --color
-      - name: Analysing the source code with pylint
+      - name: Executing unit tests
         run: |
           export PYTHONPATH=$PWD:$PWD/src/
-          pylint src --rcfile=.pylintrc
-      - name: Analysing the test code with black
-        run: |
-          black test --check --verbose --diff --color
-      - name: Analysing the test code with pylint
-        run: |
-          export PYTHONPATH=$PWD:$PWD/src/
-          pylint test --rcfile=.pylintrc
+          python -m pytest --cov-config=.coveragerc --cov-report term-missing:skip-covered --cov=src test/

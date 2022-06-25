@@ -42,7 +42,7 @@ class KaggleTrainDataLoader(DataLoader):
         valid_data = KaggleTrainDataLoader.match(
             features=self.features, targets=self.targets
         )
-        self.split_train_test(data=valid_data)
+        self._split_train_test(data=valid_data)
 
     @staticmethod
     def match(features: pd.DataFrame, targets: pd.Series) -> pd.DataFrame:
@@ -60,7 +60,7 @@ class KaggleTrainDataLoader(DataLoader):
         )
         return valid_data
 
-    def split_train_test(self, data: pd.DataFrame) -> None:
+    def _split_train_test(self, data: pd.DataFrame) -> None:
         """
         Splits the data in train and test set. Sets will be stored as class variables.
         Args:
@@ -77,7 +77,7 @@ class KaggleTrainDataLoader(DataLoader):
 
     def train_data(self) -> Tuple[pd.DataFrame, pd.Series]:
         """Returns the train features and targets"""
-        return self.X_train, self.X_test
+        return self.X_train, self.y_train
 
     def test_data(self) -> Tuple[pd.DataFrame, pd.Series]:
         """Returns the test features and targets"""

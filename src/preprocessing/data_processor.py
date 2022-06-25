@@ -1,5 +1,5 @@
 """ Base classes for implementing Feature and Target Processors """
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import pandas as pd
 
@@ -20,6 +20,7 @@ class DataProcessor(ABC):
         self.mode = mode
         self.kwargs = kwargs
 
+    @abstractmethod
     def execute(self) -> pd.DataFrame:
         """Executes the processing steps."""
         raise NotImplementedError
