@@ -17,6 +17,7 @@ from utils.data_models import ExecutionMode
 
 class KaggleFeatureCleanerStaticFunctionsTest(unittest.TestCase):
     """Test case for the static functions for cleaning specific columns."""
+
     # pylint: disable=no-self-use,too-many-arguments
 
     @parameterized.expand(
@@ -339,8 +340,8 @@ class MainTest(unittest.TestCase):
         shutil.rmtree(self.temp_dir)
 
     @patch("preprocessing.clean_features.read_data", return_value=RAW_DATA_COMBINED)
-    def test_main(self, read_data_mock):
-        """Test execution of the main method."""
+    def test_clean_features_main(self, read_data_mock):
+        """Test execution of the clean features main method."""
         main(
             input_path=self.input_path,
             output_path=self.output_path.as_posix(),

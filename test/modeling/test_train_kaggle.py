@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from test.resources.sample_data import FEATURES, TARGETS
+from test.resources.sample_data import TRANSFORMED_FEATURES, TRANSFORMED_TARGETS
 
 import numpy as np
 from numpy.testing import assert_array_equal
@@ -21,8 +21,8 @@ class KaggleSurveyTest(unittest.TestCase):
         self.trainer = KaggleSurveyTrainer(
             model=SKLearnModel(),
             data_loader=KaggleTrainDataLoader(
-                features=FEATURES,
-                targets=TARGETS,
+                features=TRANSFORMED_FEATURES,
+                targets=TRANSFORMED_TARGETS,
             ),
         )
 
@@ -64,7 +64,10 @@ class MainTrainingExecutionTest(unittest.TestCase):
         self.model_path = Path(self.temp_dir, "model.joblib")
         self.metrics_path = Path(self.temp_dir, "metrics.json")
 
-    @patch("modeling.train_kaggle.read_data", side_effect=[FEATURES, TARGETS])
+    @patch(
+        "modeling.train_kaggle.read_data",
+        side_effect=[TRANSFORMED_FEATURES, TRANSFORMED_TARGETS],
+    )
     def test_main(self, read_data_mock):
         """Tests the main method."""
         main(

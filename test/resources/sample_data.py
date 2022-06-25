@@ -4,7 +4,11 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-from utils.data_models import CleanedFeaturesSchema, CleanedTargetsSchema
+from utils.data_models import (
+    CleanedFeaturesSchema,
+    CleanedTargetsSchema,
+    TransformedFeaturesSchema,
+)
 
 
 RAW_DATA_1 = pd.DataFrame(
@@ -99,18 +103,37 @@ CLEANED_TARGETS = CleanedTargetsSchema(
     )
 )
 
-FEATURES = pd.DataFrame(
-    {
-        "Year": [2, 4, 5, -1, 3, 2],
-        "Age": [2, 4, 5, -1, 3, 2],
-        "Gender": [2, 4, 5, -1, 3, 2],
-        "City": [2, 4, 5, -1, 3, 2],
-        "Seniority": [2, 4, 5, -1, 3, 2],
-        "Position": [2, 4, 5, -1, 3, 2],
-        "Years_of_Experience": [2, 4, 5, -1, 3, 2],
-        "Company_Size": [2, 4, 5, -1, 3, 2],
-        "Company_Type": [2, 4, 5, -1, 3, 2],
-    }
+TRANSFORMED_FEATURES = TransformedFeaturesSchema(
+    pd.DataFrame(
+        {
+            "Year": [2020, 2020, 2022, 2021],
+            "Age": [24, 40, 34, 33],
+            "Gender": [2, 1, 0, 1],
+            "City": [0, 1, 0, 1],
+            "Seniority": [1, 0, 2, 1],
+            "Position": [3, 1, 0, 2],
+            "Years_of_Experience": [6.0, 20.0, 10.0, 9.0],
+            "Company_Size": [1, 0, 0, 0],
+            "Company_Type": [1, 2, 0, 1],
+        },
+        index=pd.Index([0, 1, 3, 4]),
+    )
 )
 
-TARGETS = pd.Series([50000, 67000, 66000, 89000, 76000], name="Salary_Yearly")
+TRANSFORMED_TARGETS = CLEANED_TARGETS
+
+TRAIN_DATA = pd.DataFrame(
+    {
+        "Year": [2020, 2022, 2021],
+        "Age": [40, 34, 33],
+        "Gender": [1, 0, 1],
+        "City": [1, 0, 1],
+        "Seniority": [0, 2, 1],
+        "Position": [1, 0, 2],
+        "Years_of_Experience": [20.0, 10.0, 9.0],
+        "Company_Size": [0, 0, 0],
+        "Company_Type": [2, 0, 1],
+        "Salary_Yearly": [50000.0, 55000.0, 65000.0],
+    },
+    index=pd.Index([1, 3, 4]),
+)

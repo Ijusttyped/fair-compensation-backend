@@ -88,8 +88,8 @@ class MainTest(unittest.TestCase):
         shutil.rmtree(self.temp_dir)
 
     @patch("preprocessing.clean_targets.read_data", return_value=RAW_DATA_COMBINED)
-    def test_main(self, read_data_mock):
-        """Tests the main method."""
+    def test_clean_targets_main(self, read_data_mock):
+        """Tests the clean targets main method."""
         main(
             input_path=self.input_path,
             output_path=self.output_path.as_posix(),
