@@ -7,7 +7,6 @@ A showcase for using machine learning in human resources.
 ![Code-Quality](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/code-quality.yaml/badge.svg)
 ![Unit-Tests](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/tests.yaml/badge.svg)
 ![Build](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/build.yaml/badge.svg)
-![Deployment](https://github.com/Ijusttyped/fair-compensation-backend/actions/workflows/deployment.yaml/badge.svg)
 
 ## Project Goal
 
@@ -123,9 +122,9 @@ The documentation of the API can than be seen on `localhost:8000/docs`.
 
 #### Live Endpoint
 
-The API is hosted on [Heroku](https://heroku.com). The documentation of the live API can be seen on:
+The API is hosted on [Render](https://render.com). The documentation of the live API can be seen on:
 
-`https://fair-compensation.herokuapp.com/docs`
+`https://fair-compensation-backend.onrender.com/docs`
 
 > **_NOTE:_**  The service is shut down automatically to save resources, when it's not used for some time.
 > It might take some time to start the service again once you call the link.
