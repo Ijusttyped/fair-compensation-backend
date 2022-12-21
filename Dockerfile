@@ -17,7 +17,7 @@ ENV LABELS_PATH "artefacts/labels.json"
 ENV MODEL_PATH "artefacts/model.joblib"
 ENV PORT ${PORT:-8000}
 
-RUN dvc pull transform-features train
+RUN dvc config core.no_scm true && dvc pull transform-features train
 
 EXPOSE $PORT
 
